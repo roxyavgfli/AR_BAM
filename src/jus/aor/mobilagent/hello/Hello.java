@@ -27,13 +27,16 @@ public class Hello extends Agent{
 	 */
 	protected _Action doIt = new _Action(){
 		// ...
-	};
+		return null;
+	}
+	
 	/* (non-Javadoc)
 	 * @see jus.aor.mobilagent.kernel.Agent#retour()
 	 */
 	@Override
 	protected _Action retour(){
 		// return ...;
+		return null;
 	}
 	// ...
 }

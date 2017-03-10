@@ -41,6 +41,7 @@ class Route implements Iterable<Etape>, Serializable{
 	 */
 	Etape get() throws NoSuchElementException {
 		//A COMPLETER
+		return null;
 	}
 	/**
 	 * Restitue la prochaine étape et élimine de la route ou la dernière qui est la base de départ.
@@ -48,6 +49,7 @@ class Route implements Iterable<Etape>, Serializable{
 	 */
 	Etape next() throws NoSuchElementException {
 		//A COMPLETER
+		return null;
 	}
 	/**
 	 * Il y a-t-il encore une étape à parcourir.
