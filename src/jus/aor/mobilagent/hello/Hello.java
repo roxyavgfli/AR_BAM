@@ -8,6 +8,7 @@ import java.util.List;
 
 import jus.aor.mobilagent.kernel._Action;
 import jus.aor.mobilagent.kernel.Agent;
+import jus.aor.mobilagent.kernel.Starter;
 
 /**
  * Classe de test élémentaire pour le bus à agents mobiles
@@ -20,15 +21,25 @@ public class Hello extends Agent{
 	  * @param args aucun argument n'est requis
 	  */
 	 public Hello(Object... args) {
-		 // ....
+		 super();
 	 }
 	 /**
 	 * l'action à entreprendre sur les serveurs visités  
 	 */
 	protected _Action doIt = new _Action(){
-		// ...
-		return null;
-	}
+
+
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 7595311546L;
+
+		@Override
+		public void execute() {
+			System.out.println("Execution de l'action 'HELLO'");			
+		}
+		
+	};
 	
 	/* (non-Javadoc)
 	 * @see jus.aor.mobilagent.kernel.Agent#retour()
@@ -36,7 +47,20 @@ public class Hello extends Agent{
 	@Override
 	protected _Action retour(){
 		// return ...;
-		return null;
+		return new _Action(){
+
+
+			/**
+			 * 
+			 */
+			private static final long serialVersionUID = 545282842L;
+
+			@Override
+			public void execute() {
+				System.out.println("Execution de l'action de retour");				
+			}
+			
+		};
 	}
 	// ...
 }
