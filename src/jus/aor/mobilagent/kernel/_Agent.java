@@ -21,6 +21,7 @@ public interface _Agent extends java.io.Serializable, Runnable {
 	 */
 	this.server = agentServer;
 	this.serverName = serverName;
+	
 	}
 	
 	public void reInit(AgentServer server, String serverName);
@@ -28,5 +29,7 @@ public interface _Agent extends java.io.Serializable, Runnable {
 	 * ajoute une étape en fin de la feuille de route de l'agent.
 	 * @param etape l'étape à ajouter
 	 */
+	this.server = agentServer;
+	this.serverName = serverName;
 	public void addEtape(Etape etape);
 }
