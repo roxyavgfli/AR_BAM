@@ -10,7 +10,7 @@ public class Agent implements _Agent{
 	
 	private AgentServer server;
 	private Route route;
-	private String serv_name;
+	private String serverName;
 
 	protected _Action retour() {
 		// TODO Auto-generated method stub
@@ -33,16 +33,13 @@ public class Agent implements _Agent{
 	@Override
 	public void reInit(AgentServer server, String serverName) {
 		// TODO Auto-generated method stub
-		this.server = agentServer;
+		this.server = server;
 		this.serverName = serverName;
 	}
 
 	@Override
 	public void addEtape(Etape etape) {
-<<<<<<< HEAD
 		// TODO Auto-generated method stub
-		this.route.add(etape);
-=======
 		this.route.add(etape);
 	}
 	
@@ -60,7 +57,6 @@ public class Agent implements _Agent{
 		} catch (Exception e){
 			System.out.println(e);
 		}
->>>>>>> implement classloaders
 	}
 
 }

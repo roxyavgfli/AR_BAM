@@ -13,18 +13,7 @@ public interface _Agent extends java.io.Serializable, Runnable {
 	 * @param agentServer le serveur hébergeant initialement l'agent.
 	 * @param serverName le nom logique du serveur d'agent
 	 */
-<<<<<<< HEAD
 	public void init(AgentServer agentServer, String serverName);
-=======
-	public default void init(AgentServer agentServer, String serverName){
->>>>>>> implement classloaders
-	/**
-	 * Initialise l'agent lors de son déploiement sur un des serveurs du bus.
-	 * @param server le server actuel pour cet agent
-	 * @param serverName le nom logique du serveur d'agent
-	 * @throws UnknownHostException 
-	 */	
-	}
 	
 	public void reInit(AgentServer server, String serverName);
 	/**
