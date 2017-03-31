@@ -19,19 +19,21 @@ public class Agent implements _Agent{
 	@Override
 	public void init(AgentServer agentServer, String serverName) {
 		// TODO Auto-generated method stub
-		
+		this.server = agentServer;
+		this.serverName = serverName;
 	}
 
 	@Override
 	public void reInit(AgentServer server, String serverName) {
 		// TODO Auto-generated method stub
-		
+		this.server = agentServer;
+		this.serverName = serverName;
 	}
 
 	@Override
 	public void addEtape(Etape etape) {
 		// TODO Auto-generated method stub
-		
+		this.route.add(etape);
 	}
 
 }
