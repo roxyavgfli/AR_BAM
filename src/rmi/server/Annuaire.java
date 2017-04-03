@@ -1,6 +1,13 @@
 package rmi.server;
 
 import java.io.File;
+import java.rmi.Naming;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -12,18 +19,18 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import rmi.sources._Annuaire;
+import rmi.utils._Annuaire;
 import rmi.utils.Numero;
 
-public class Annuaire implements _Annuaire{
+public class Annuaire extends UnicastRemoteObject implements _Annuaire{
 	
 	private HashMap<String,Numero> repertoire = new HashMap<String, Numero>();
 
-	public Annuaire(String uri){
+	public Annuaire(String uri) throws RemoteException{
 		/* Parser le XML et ajouter les entrées au HashMap */
 		try{
 			File fXmlFile = new File(uri);
-			System.out.println("Fichier : " + fXmlFile.getAbsolutePath());
+//			System.out.println("Fichier : " + fXmlFile.getAbsolutePath());
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
 			Document doc = dBuilder.parse(fXmlFile);
@@ -56,5 +63,30 @@ public class Annuaire implements _Annuaire{
 	
 	public HashMap<String, Numero> getRepertoire(){
 		return this.repertoire;
+	}
+	
+	public static void main(String[] args) {
+		
+		int port = 1099;
+		
+		// Sécurity manager
+		/*if (System.getSecurityManager() == null) {
+			System.setSecurityManager(new SecurityManager());
+		}*/
+		
+		try {
+			// Déclaration du registry
+			Registry reg;
+
+			// Enregistrement des entrées de l'annuaire
+			reg = LocateRegistry.createRegistry(port + 1);
+			Annuaire a = new Annuaire("DataStore/Annuaire.xml");
+			reg.bind("annuaire", a);
+			System.out.println("Annuaire créé avec succès");
+
+
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 	}
 }
