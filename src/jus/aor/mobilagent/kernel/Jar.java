@@ -21,7 +21,7 @@ import java.util.jar.JarInputStream;
  * @author Morat 
  */
 public class Jar implements Iterable<Map.Entry<String,byte[]>>, Serializable{
-	private static final long serialVersionUID = 1803791441059733817L;
+	private static final long serialVersionUID = 4102055378099993883L;
 	/** le contenu du fichier jar */
 	private Map<String,byte[]> contents = new HashMap<String,byte[]>();
 	/**

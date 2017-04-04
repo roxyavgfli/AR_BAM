@@ -5,6 +5,7 @@ import java.text.DateFormat;
 import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
 
 import jus.aor.mobilagent.kernel._Action;
 import jus.aor.mobilagent.kernel.Agent;
@@ -26,39 +27,13 @@ public class Hello extends Agent{
 	 /**
 	 * l'action à entreprendre sur les serveurs visités  
 	 */
+	
 	protected _Action doIt = new _Action(){
-
-
-		/**
-		 * 
-		 */
-		private static final long serialVersionUID = 7595311546L;
-
-		@Override
-		public void execute() {
-			System.out.println("Execution de l'action 'HELLO'");			
-		}
+		private static final long serialVersionUID = 4102055378099993883L; //545282842L
 		
+		public void execute() {
+			Starter.get_logger().log(Level.FINE,"Action -> Hello ~");
+		}
 	};
 	
-	/* (non-Javadoc)
-	 * @see jus.aor.mobilagent.kernel.Agent#retour()
-	 */
-	@Override
-	protected _Action retour(){
-		return new _Action(){
-
-
-			/**
-			 * 
-			 */
-			private static final long serialVersionUID = 545282842L;
-
-			@Override
-			public void execute() {
-				System.out.println("Execution de l'action de retour");				
-			}
-			
-		};
-	}
 }

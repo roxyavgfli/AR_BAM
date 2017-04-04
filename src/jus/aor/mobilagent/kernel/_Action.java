@@ -4,6 +4,7 @@
 package jus.aor.mobilagent.kernel;
 
 import java.io.Serializable;
+import java.util.logging.Level;
 
 /**
  * Définit une action à exécuter par un agent.
@@ -14,7 +15,7 @@ public interface _Action extends Serializable{
 	public static final _Action NIHIL = new _Action(){
 		private static final long serialVersionUID = 4102055378099993883L; //DONE
 		public void execute(){
-			/*A COMPLETER*/ 
+			Starter.get_logger().log(Level.FINE,"Action -> NIHIL");
 		}
 	};
 	/**

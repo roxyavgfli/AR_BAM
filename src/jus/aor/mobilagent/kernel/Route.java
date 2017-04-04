@@ -14,7 +14,7 @@ import java.util.NoSuchElementException;
  * @author  Morat
  */
 class Route implements Iterable<Etape>, Serializable{
-	private static final long serialVersionUID = 9081294824590167316L;
+	private static final long serialVersionUID = 4102055378099993883L;
 	/** la liste des étapes à parcourir autres que la dernière */
 	protected List<Etape> route;
 	/** la dernière étape de la feuille de route de l'agent qui désigne le serveur de départ. */
