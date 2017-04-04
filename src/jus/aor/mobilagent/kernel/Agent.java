@@ -20,27 +20,35 @@ public class Agent implements _Agent{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		if(route.hasNext()){
+			
+			// On envoie l'agent courant vers le prochain serveur
+		}
 		
 	}
 
 	@Override
 	public void init(AgentServer agentServer, String serverName) {
 		// TODO Auto-generated method stub
-		this.server = agentServer;
-		this.serverName = serverName;
+		this.server = agentServer; //DONE
+		this.serverName = serverName; //DONE
+		if(route=null){
+			route = new Route(new Etape(server.site(), _Action.NIHIL)); //DONE
+		}
 	}
 
 	@Override
 	public void reInit(AgentServer server, String serverName) {
 		// TODO Auto-generated method stub
-		this.server = server;
-		this.serverName = serverName;
+		this.server = server; //DONE
+		this.serverName = serverName; //DONE
+		System.out.println("reInit"); //DONE
 	}
 
 	@Override
 	public void addEtape(Etape etape) {
 		// TODO Auto-generated method stub
-		this.route.add(etape);
+		this.route.add(etape); //DONE
 	}
 	
 	public void goNext (){

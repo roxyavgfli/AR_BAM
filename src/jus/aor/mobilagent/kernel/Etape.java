@@ -22,8 +22,8 @@ public class Etape implements Serializable{
 	 * @param action l'action à exécuter
 	 */
 	public Etape(URI server, _Action action){
-		this.server = server;
-		this.action = action;
+		this.server = server; //DONE
+		this.action = action; //DONE
 	}
 	/* (non-Javadoc)
 	 * @see java.lang.Object#toString()
