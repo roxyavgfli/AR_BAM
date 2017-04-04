@@ -4,9 +4,10 @@ import java.net.ServerSocker;
 
 public class AgentServer extends Thread{
 
-	string name;
+	String name;
 	int port;
 	_Service<T> service;
+	HashMap<String,_Service<?>> myService;
 	ServerSocket servListener;
 
 	
