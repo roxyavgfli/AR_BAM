@@ -46,7 +46,6 @@ public class Hello extends Agent{
 	 */
 	@Override
 	protected _Action retour(){
-		// return ...;
 		return new _Action(){
 
 
@@ -62,5 +61,4 @@ public class Hello extends Agent{
 			
 		};
 	}
-	// ...
 }

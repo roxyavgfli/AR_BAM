@@ -1,6 +1,13 @@
 package rmi.server;
 
 import java.io.File;
+import java.rmi.Naming;
+import java.rmi.Remote;
+import java.rmi.RemoteException;
+import java.rmi.registry.LocateRegistry;
+import java.rmi.registry.Registry;
+import java.rmi.server.RemoteObject;
+import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -13,14 +20,14 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import rmi.sources._Chaine;
+import rmi.utils._Chaine;
 import rmi.utils.Hotel;
 
-public class Chaine implements _Chaine {
+public class Chaine extends UnicastRemoteObject implements _Chaine{
 	
-	private List<Hotel> ListeHotels = new ArrayList<Hotel>();
+	private List<Hotel> listeHotels = new ArrayList<Hotel>();
 	
-	public Chaine (String uri){
+	public Chaine (String uri) throws RemoteException {
 		try{
 			File fXmlFile = new File(uri);
 			System.out.println("Fichier : " + fXmlFile.getAbsolutePath());
@@ -41,7 +48,7 @@ public class Chaine implements _Chaine {
 					String localisation = attributes.getNamedItem("localisation").getNodeValue();;
 					String nom = attributes.getNamedItem("name").getNodeValue();
 					
-					this.ListeHotels.add(new Hotel(nom, localisation));
+					this.listeHotels.add(new Hotel(nom, localisation));
 				}
 			}
 		} catch (Exception e) {
@@ -51,7 +58,54 @@ public class Chaine implements _Chaine {
 
 	@Override
 	public List<Hotel> get(String localisation) {
-		return this.ListeHotels;
+		List<Hotel> res = new ArrayList<Hotel>();
+
+		for (Hotel hotel : listeHotels) {
+			if (localisation.equals(hotel.localisation)) {
+				res.add(hotel);
+			}
+		}
+
+		return res;
 	}
 	
+	public static void main(String[] args) {
+		
+		int port = 1099;
+		int numeroChaine;
+		
+		
+		//Récupération du paramètre
+		try {
+			numeroChaine = Integer.parseInt(args[0]);
+			
+			// Sécurity manager : charge certaines classes dynamiquement
+			/*if (System.getSecurityManager() == null) {
+				System.setSecurityManager(new SecurityManager());
+			}*/
+			
+			try {
+				// Déclaration du registry
+				Registry reg;
+			
+				// Enregistrement des chaines dans le registry
+				reg = LocateRegistry.createRegistry(port + numeroChaine + 1);
+				
+				// Bind de chaine dans registry
+				Chaine c = new Chaine("DataStore/Hotels" + numeroChaine + ".xml");
+				reg.bind("chain" + numeroChaine, c);
+				System.out.println("Chemin " + numeroChaine + " bind avec succès.");
+			
+			} catch (Exception e) {
+				System.out.println("Server err: " + e.getMessage()); 
+	            e.printStackTrace(); 
+			}
+		} catch (Exception e) {
+			System.out.println("Entrez le numéro de la chaine d'hotel.");
+			System.exit(1);
+		}
+		
+		
+
+	}
 }
