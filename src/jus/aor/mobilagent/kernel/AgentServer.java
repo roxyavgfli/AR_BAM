@@ -2,8 +2,9 @@ package jus.aor.mobilagent.kernel;
 
 public class AgentServer extends Thread{
 
-	string name;
+	String name;
 	int port;
+	_Service<T> service;
 	
 	
 	public AgentServer(String name, int port) {
@@ -11,47 +12,9 @@ public class AgentServer extends Thread{
 		this.port=port;
 	}
 	
-	public void run(){
-		System.out.println("Run agent serveur");
-		Jar jar;
-		Socket socketClient;
-		_Agent ag;
+	public void run(){ 
+		//TODO
 		
-		try {
-			servListener = new ServerSocket(port);
-			
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		
-		
-		
-		while(true){
-			try {
-				socketClient = servListener.accept();
-				ObjectInputStream ois = new ObjectInputStream(socketClient.getInputStream());
-				jar = (Jar) ois.readObject();
-				BAMAgentClassLoader BAMAgent = new BAMAgentClassLoader(this.getClass().getClassLoader());
-				BAMAgent.integrateCode(jar);
-				AgentInputStream ais = new AgentInputStream(socketClient.getInputStream(),BAMAgent);
-				ag = (_Agent) ais.readObject();
-				ais.close();
-				ag.reInit(this, this.name, BAMAgent);
-				Thread t = new Thread(ag);
-				t.start();
-
-				
-			}catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}catch (IOException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-			
-		}
 	}
 	
 	private _Agent getAgent (Socket sock){
@@ -63,14 +26,14 @@ public class AgentServer extends Thread{
 		return name;
 	}
 	
-	protected _Service<?> getService (String name){
-		return myService.get(name);
+	protected _Service<T> getService (String name){
+		return service.get(name);
 	}
 	
 	public URI site() {
 		URI uri=null;
 		try {
-			uri= new URI("mobilagent://localhost:"+port+"/");
+			uri= new URI("localhost:"+port+"/");
 		} catch (URISyntaxException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
