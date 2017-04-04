@@ -1,12 +1,15 @@
 package jus.aor.mobilagent.kernel;
 
-import java.net.ServerSocker;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.net.ServerSocket;
+import java.net.Socket;
 
 public class AgentServer extends Thread{
 
-	string name;
+	String name;
 	int port;
-	_Service<T> service;
+	_Service<?> service;
 	ServerSocket servListener;
 
 	
@@ -41,7 +44,7 @@ public class AgentServer extends Thread{
 				ObjectInputStream ois = new ObjectInputStream(socketClient.getInputStream());
 				jar = (Jar) ois.readObject();
 				BAMAgentClassLoader BAMAgent = new BAMAgentClassLoader(this.getClass().getClassLoader());
-				BAMAgent.integrateCode(jar);
+				BAMAgent.intagrateCode(jar);
 				AgentInputStream ais = new AgentInputStream(socketClient.getInputStream(),BAMAgent);
 				ag = (_Agent) ais.readObject();
 				ais.close();
