@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.net.ServerSocket;
 import java.net.Socket;
+import java.net.URI;
+import java.net.URISyntaxException;
+import java.util.HashMap;
 
 public class AgentServer extends Thread{
 
@@ -11,12 +14,14 @@ public class AgentServer extends Thread{
 	int port;
 	_Service<?> service;
 	ServerSocket servListener;
+	private HashMap<String,_Service<?>> myServices;
 
 	
 	
 	public AgentServer(String name, int port) {
 		this.name=name;
 		this.port=port;
+		myServices = new HashMap<String, _Service<?>>();
 	}
 	
 
@@ -48,7 +53,7 @@ public class AgentServer extends Thread{
 				AgentInputStream ais = new AgentInputStream(socketClient.getInputStream(),BAMAgent);
 				ag = (_Agent) ais.readObject();
 				ais.close();
-				ag.reInit(this, this.name, BAMAgent);
+				ag.reInit(this, this.name);
 				Thread t = new Thread(ag);
 				t.start();
 
@@ -74,7 +79,7 @@ public class AgentServer extends Thread{
 	}
 	
 	protected _Service<?> getService (String name){
-		return myService.get(name);
+		return myServices.get(name);
 	}
 	
 	public URI site() {
