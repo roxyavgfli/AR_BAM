@@ -11,6 +11,10 @@ public class Agent implements _Agent{
 	private AgentServer server;
 	private Route route;
 	private String serverName;
+	private static final long serialVersionUID = 1L;
+	private boolean first=false;
+	protected transient BAMAgentClassLoader loader;
+	protected transient Jar jar;
 
 	protected _Action retour() {
 		// TODO Auto-generated method stub
@@ -20,10 +24,40 @@ public class Agent implements _Agent{
 	@Override
 	public void run() {
 		// TODO Auto-generated method stub
+		// On execute l'action a effectuer si on ne se trouve pas sur le serveur initial
+		if(route.hasNext() && first){
+			route.get().action.execute();
+			route.next();
+		}
+
 		if(route.hasNext()){
 			
-			// On envoie l'agent courant vers le prochain serveur
+			// Envoi de l'agent courant vers prochain serveur
+				first=true;
+				Socket socket;
+				try {
+					socket = new Socket(route.get().server.getHost(),route.get().server.getPort());
+					OutputStream os=socket.getOutputStream();
+					// Flux pour l'envoi de données
+					ObjectOutputStream oosJar = new ObjectOutputStream(os);
+					
+					oosJar.writeObject(jar);
+					
+
+					ObjectOutputStream oosAg = new ObjectOutputStream(os);
+					oosAg.writeObject(this);
+				} catch (UnknownHostException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (NoSuchElementException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IOException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 		}
+
 		
 	}
 

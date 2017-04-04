@@ -1,9 +1,14 @@
 package jus.aor.mobilagent.kernel;
 
+import java.net.ServerSocker;
+
 public class AgentServer extends Thread{
 
 	string name;
 	int port;
+	_Service<T> service;
+	ServerSocket servListener;
+
 	
 	
 	public AgentServer(String name, int port) {
@@ -11,7 +16,9 @@ public class AgentServer extends Thread{
 		this.port=port;
 	}
 	
-	public void run(){
+
+	public void run(){ 
+
 		System.out.println("Run agent serveur");
 		Jar jar;
 		Socket socketClient;
