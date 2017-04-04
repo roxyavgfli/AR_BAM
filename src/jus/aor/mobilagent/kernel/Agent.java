@@ -1,9 +1,12 @@
 package jus.aor.mobilagent.kernel;
 
+import java.io.IOException;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import java.net.Socket;
 import java.net.URI;
+import java.net.UnknownHostException;
+import java.util.NoSuchElementException;
 import java.util.logging.Level;
 
 public class Agent implements _Agent{
@@ -66,7 +69,7 @@ public class Agent implements _Agent{
 		// TODO Auto-generated method stub
 		this.server = agentServer; //DONE
 		this.serverName = serverName; //DONE
-		if(route=null){
+		if(route == null){
 			route = new Route(new Etape(server.site(), _Action.NIHIL)); //DONE
 		}
 	}

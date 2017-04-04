@@ -18,7 +18,7 @@ public class AgentServer extends Thread{
 
 	
 	
-	public AgentServer(String name, int port) {
+	public AgentServer(int port, String name) {
 		this.name=name;
 		this.port=port;
 		myServices = new HashMap<String, _Service<?>>();
@@ -49,7 +49,7 @@ public class AgentServer extends Thread{
 				ObjectInputStream ois = new ObjectInputStream(socketClient.getInputStream());
 				jar = (Jar) ois.readObject();
 				BAMAgentClassLoader BAMAgent = new BAMAgentClassLoader(this.getClass().getClassLoader());
-				BAMAgent.intagrateCode(jar);
+				BAMAgent.integrateCode(jar);
 				AgentInputStream ais = new AgentInputStream(socketClient.getInputStream(),BAMAgent);
 				ag = (_Agent) ais.readObject();
 				ais.close();

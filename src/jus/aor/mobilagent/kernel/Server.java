@@ -82,8 +82,7 @@ public final class Server implements _Server{
 	public final void deployAgent(String classeName, Object[] args, String codeBase, List<String> etapeAddress, List<String> etapeAction) {
 		_Agent wAgent = null; //done
 		try {//donne ...
-			BAMAgentClassLoader wClassLoader = new BAMAgentClassLoader(new URI(codeBase).getPath(),
-					this.getClass().getClassLoader());
+			BAMAgentClassLoader wClassLoader = new BAMAgentClassLoader(new URI(codeBase).getPath(), this.getClass().getClassLoader());
 
 			// Récupère la classe héritant _Agent
 			Class<?> wClassAgent = Class.forName(classeName, true, wClassLoader);
