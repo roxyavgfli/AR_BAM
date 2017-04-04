@@ -12,6 +12,7 @@ public class BAMAgentClassLoader extends ClassLoader {
 	 */
 	public BAMAgentClassLoader(ClassLoader cl){
 		super(cl); // Appel au constructeur de classloader
+		
 	}
 	
 	/*
@@ -25,19 +26,22 @@ public class BAMAgentClassLoader extends ClassLoader {
 	/*
 	 * Méthode servant à stocker le code des classes récupérées dans le jar
 	 */
-	public void stockerJar (Jar jar){
+	public void intagrateCode (Jar jar){
 		this.jar = jar;
 	}
 	
 	/*
 	 * Méthode servant à récupérer le code des classes précédemment stockées
 	 */
-	public Jar recupererClasses (){
+	public Jar recupererClassesextractCode (){
 		try {
 			return this.jar;
 		} catch (Exception e) {
 			e.printStackTrace();
 			return null;
 		}
+	}
+	
+	public String className (String className){ return "rr";//TODO}
 	}
 }

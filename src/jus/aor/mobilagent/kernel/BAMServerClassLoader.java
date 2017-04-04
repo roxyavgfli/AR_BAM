@@ -9,4 +9,12 @@ public class BAMServerClassLoader extends URLClassLoader{
 		super(urls);
 	}
 	
+	protected void addURL(URL url) {
+		super.addURL(url);
+	}
+
+	public String toString() {
+		return super.toString();
+	}
+	
 }

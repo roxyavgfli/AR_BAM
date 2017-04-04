@@ -1,5 +1,10 @@
 package jus.aor.mobilagent.kernel;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.ObjectInputStream;
+import java.io.ObjectStreamClass;
+
 class AgentInputStream extends ObjectInputStream{
    /**
     * le classLoader à utiliser
