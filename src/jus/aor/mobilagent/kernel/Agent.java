@@ -60,7 +60,7 @@ public class Agent implements _Agent{
 					e.printStackTrace();
 				}
 		}
-
+System.out.println();
 		
 	}
 
