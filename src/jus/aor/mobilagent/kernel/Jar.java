@@ -24,11 +24,7 @@ public class Jar implements Iterable<Map.Entry<String,byte[]>>, Serializable{
 	private static final long serialVersionUID = 4102055378099993883L;
 	/** le contenu du fichier jar */
 	private Map<String,byte[]> contents = new HashMap<String,byte[]>();
-	/**
-	 * création d'un Jar. l'ensemble des ressources contenues
-	 * dans le fichier peuvent être accédées via les méthodes getResource ou getClass.
-	 * @param fileName le nom du fichier jar
-	 */
+
 	public Jar(String fileName) throws JarException,IOException{
 		Map<String,Integer> htSizes = new HashMap<String,Integer>();
 		JarFile jar = new JarFile(fileName);

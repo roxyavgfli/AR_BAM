@@ -30,13 +30,12 @@ public class AgentServer extends Thread{
 		System.out.println("Run agent serveur");
 		Jar jar;
 		Socket socketClient;
-		_Agent ag;
+		_Agent agent;
 		
 		try {
 			servListener = new ServerSocket(port);
 			
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -51,18 +50,16 @@ public class AgentServer extends Thread{
 				BAMAgentClassLoader BAMAgent = new BAMAgentClassLoader(this.getClass().getClassLoader());
 				BAMAgent.integrateCode(jar);
 				AgentInputStream ais = new AgentInputStream(socketClient.getInputStream(),BAMAgent);
-				ag = (_Agent) ais.readObject();
+				agent = (_Agent) ais.readObject();
 				ais.close();
-				ag.reInit(this, this.name);
-				Thread t = new Thread(ag);
+				agent.reInit(this, this.name);
+				Thread t = new Thread(agent);
 				t.start();
 
 				
 			}catch (ClassNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			
@@ -87,7 +84,6 @@ public class AgentServer extends Thread{
 		try {
 			uri= new URI("mobilagent://localhost:"+port+"/");
 		} catch (URISyntaxException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return uri;
