@@ -42,14 +42,11 @@ public final class Server implements _Server{
 		this.name=name;
 		try {
 			this.port=port;
-			/* mise en place du logger pour tracer l'application */
 			loggerName = "jus/aor/mobilagent/"+InetAddress.getLocalHost().getHostName()+"/"+this.name;
 			logger=Logger.getLogger(loggerName);
-			/* démarrage du server d'agents mobiles attaché à cette machine */
 			this.agentServer = new AgentServer(this.port, this.name); //done
 			logger.log(Level.INFO, String.format("Starting AgentServer %s", this)); //done
 			new Thread(this.agentServer).start(); //done
-			/* temporisation de mise en place du server d'agents */
 			Thread.sleep(1000);
 		}catch(Exception ex){
 			logger.log(Level.FINE," erreur durant le lancement du serveur"+this,ex);
@@ -81,39 +78,27 @@ public final class Server implements _Server{
 	 */
 	public final void deployAgent(String classeName, Object[] args, String codeBase, List<String> etapeAddress, List<String> etapeAction) {
 		_Agent agent = null; //done
-		try {//donne ...
+		try {
 			BAMAgentClassLoader classLoader = new BAMAgentClassLoader(new URI(codeBase).getPath(), this.getClass().getClassLoader());
 
-			// Récupère la classe héritant _Agent
+
 			Class<?> classAgent = Class.forName(classeName, true, classLoader);
 
-			// Récupère le constructeur de cette classe
 			Constructor<?> construct = classAgent.getConstructor(Object[].class);
-			// Instantie l'object
-			// TODO: Fix problem here
 			agent = (_Agent) construct.newInstance(new Object[] { args });
-			// Initialise l'Agent
 			agent.init(this.agentServer, this.name);
 			if (etapeAction.size() != etapeAction.size()) {
 				this.logger.log(Level.INFO, " Problème de cohérence, le nombre d'action de d'adresse sont différents");
 			} else {
 				int size = etapeAction.size();
 				for (int i = 0; i < size; i++) {
-					// Ajoute une étape dans l'agent pour chaque étape dans les
-					// listes
-					// Récupère les champs de la classe
 					Field champ = classAgent.getDeclaredField(etapeAction.get(i));
-					// Assure que le champs soit accessible
 					champ.setAccessible(true);
-					// Récupère l'action
 					_Action action = (_Action) champ.get(agent);
-					// Ajout de l'étape
 					agent.addEtape(new Etape(new URI(etapeAddress.get(i)), action));
 				}
-				// Démarre l'Agent
 				this.startAgent(agent, classLoader);
-				// new Thread(wAgent).start();
-			} // ... done
+			}
 		}catch(Exception ex){
 			logger.log(Level.FINE," erreur durant le lancement du serveur"+this,ex);
 			return;
@@ -132,20 +117,15 @@ public final class Server implements _Server{
 
 		Socket socket = new Socket(agentServerSite.getHost(), agentServerSite.getPort());
 
-		// Creation of a Stream and a ObjectOutputStream to destination
 		OutputStream outputStream = socket.getOutputStream();
 		ObjectOutputStream objectOutputStream = new ObjectOutputStream(outputStream);
 		ObjectOutputStream objectOutputStream2 = new ObjectOutputStream(outputStream);
 
-		// Retrieve byte code to send
 		Jar baseCode = loader.extractCode();
 
-		// Send Jar in BAMAgentClassLoader
 		objectOutputStream.writeObject(baseCode);
-		// Send Agent (this)
 		objectOutputStream2.writeObject(agent);
 
-		// Close the sockets
 		objectOutputStream2.close();
 		objectOutputStream.close();
 		socket.close();

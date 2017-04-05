@@ -30,30 +30,26 @@ public class Jar implements Iterable<Map.Entry<String,byte[]>>, Serializable{
 	 * @param fileName le nom du fichier jar
 	 */
 	public Jar(String fileName) throws JarException,IOException{
-		// la taille de chacun des composants du jar
 		Map<String,Integer> htSizes = new HashMap<String,Integer>();
-		// le fichier jar
 		JarFile jar = new JarFile(fileName);
-		// l'ensemble des entrées contenues dans le jar
 		Enumeration<? extends JarEntry> e = jar.entries();
-		JarEntry entry;
-		// calcul de la taille de chacun des composants du jar
+		JarEntry entree;
 		while(e.hasMoreElements()){
-			entry = e.nextElement();
-			htSizes.put(entry.getName(), new Integer((int) entry.getSize()));
+			entree = e.nextElement();
+			htSizes.put(entree.getName(), new Integer((int) entree.getSize()));
 		}
 		jar.close();
 		
 		FileInputStream fis = new FileInputStream(fileName);
 		BufferedInputStream bis = new BufferedInputStream(fis);
 		JarInputStream jis = new JarInputStream(bis);
-		entry = null;
+		entree = null;
 		int size, sizeRead, sizeLastRead;
 		byte[] buffer;
 		//récupération des composants du jar
-		while((entry = jis.getNextJarEntry()) != null){
-			if(entry.isDirectory()) continue;
-			size = htSizes.get(entry.getName()).intValue();
+		while((entree = jis.getNextJarEntry()) != null){
+			if(entree.isDirectory()) continue;
+			size = htSizes.get(entree.getName()).intValue();
 			buffer = new byte[(int) size];
 			sizeRead = sizeLastRead = 0;
 			while(((int) size - sizeRead) > 0){
@@ -61,7 +57,7 @@ public class Jar implements Iterable<Map.Entry<String,byte[]>>, Serializable{
 				if(sizeLastRead == -1) break;
 				sizeRead += sizeLastRead;
 			}
-			contents.put(entry.getName(), buffer);
+			contents.put(entree.getName(), buffer);
 		}
 	}
 	/**
