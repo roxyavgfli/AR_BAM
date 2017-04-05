@@ -32,7 +32,7 @@ public class Starter{
 	/** le document xml en cours */
 	protected Document doc;
 	/** le logger pour ce code */
-	protected static Logger logger;
+	protected transient static Logger logger;
 	/** le server associé à ce starter */
 	protected jus.aor.mobilagent.kernel._Server server;
 	/** le Loader utilisé */
@@ -47,7 +47,7 @@ public class Starter{
 		// récupération du niveau de log
 		java.util.logging.Level level;
 		try {
-			level = Level.parse(System.getProperty("LEVEL"));			
+			level = Level.parse(System.getProperty("LEVEL"));		
 		}catch(NullPointerException e) {
 			level=java.util.logging.Level.OFF;
 		}catch(IllegalArgumentException e) {

@@ -80,38 +80,38 @@ public final class Server implements _Server{
 	 * @param etapeAction la liste des actions des étapes
 	 */
 	public final void deployAgent(String classeName, Object[] args, String codeBase, List<String> etapeAddress, List<String> etapeAction) {
-		_Agent wAgent = null; //done
+		_Agent agent = null; //done
 		try {//donne ...
-			BAMAgentClassLoader wClassLoader = new BAMAgentClassLoader(new URI(codeBase).getPath(), this.getClass().getClassLoader());
+			BAMAgentClassLoader classLoader = new BAMAgentClassLoader(new URI(codeBase).getPath(), this.getClass().getClassLoader());
 
 			// Récupère la classe héritant _Agent
-			Class<?> wClassAgent = Class.forName(classeName, true, wClassLoader);
+			Class<?> classAgent = Class.forName(classeName, true, classLoader);
 
 			// Récupère le constructeur de cette classe
-			Constructor<?> wConstructor = wClassAgent.getConstructor(Object[].class);
+			Constructor<?> construct = classAgent.getConstructor(Object[].class);
 			// Instantie l'object
 			// TODO: Fix problem here
-			wAgent = (_Agent) wConstructor.newInstance(new Object[] { args });
+			agent = (_Agent) construct.newInstance(new Object[] { args });
 			// Initialise l'Agent
-			wAgent.init(this.agentServer, this.name);
+			agent.init(this.agentServer, this.name);
 			if (etapeAction.size() != etapeAction.size()) {
 				this.logger.log(Level.INFO, " Problème de cohérence, le nombre d'action de d'adresse sont différents");
 			} else {
-				int wSize = etapeAction.size();
-				for (int i = 0; i < wSize; i++) {
+				int size = etapeAction.size();
+				for (int i = 0; i < size; i++) {
 					// Ajoute une étape dans l'agent pour chaque étape dans les
 					// listes
 					// Récupère les champs de la classe
-					Field wChamp = wClassAgent.getDeclaredField(etapeAction.get(i));
+					Field champ = classAgent.getDeclaredField(etapeAction.get(i));
 					// Assure que le champs soit accessible
-					wChamp.setAccessible(true);
+					champ.setAccessible(true);
 					// Récupère l'action
-					_Action wAction = (_Action) wChamp.get(wAgent);
+					_Action action = (_Action) champ.get(agent);
 					// Ajout de l'étape
-					wAgent.addEtape(new Etape(new URI(etapeAddress.get(i)), wAction));
+					agent.addEtape(new Etape(new URI(etapeAddress.get(i)), action));
 				}
 				// Démarre l'Agent
-				this.startAgent(wAgent, wClassLoader);
+				this.startAgent(agent, classLoader);
 				// new Thread(wAgent).start();
 			} // ... done
 		}catch(Exception ex){
